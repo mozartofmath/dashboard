@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from database_ops import db_execute_fetch
+from database_ops import *
 
 def main():
     st.title("TellCo Data Analytics Dashboard")
