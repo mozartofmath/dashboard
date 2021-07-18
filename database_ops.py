@@ -5,7 +5,7 @@ from pymysql import Error
 
 def connect_to_db(dbName=None):
 
-    conn = mysql.connect(host='localhost', user='root', password='root',
+    conn = mysql.connect(host='localhost', user='root', password='',
                          database=dbName)
     cur = conn.cursor()
     return conn, cur
