@@ -1,12 +1,13 @@
 import os
 import pandas as pd
-import pymysql as mysql
-from pymysql import Error
+#import pymysql as mysql
+#from pymysql import Error
+import sqlite3 as mysql
+from sqlite3 import Error
 
 def connect_to_db(dbName=None):
 
-    conn = mysql.connect(host='localhost', user='root', password='',
-                         database=dbName)
+    conn = mysql.connect(dbName)
     cur = conn.cursor()
     return conn, cur
 
@@ -43,7 +44,7 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
 
     for _, row in df.iterrows():
         sqlQuery = f"""INSERT INTO {table_name} (Customer_ID, Engagement_Score, Experience_Score, Satisfaction_Score, Cluster)
-             VALUES(%s, %s, %s, %s, %s);"""
+             VALUES(?, ?, ?, ?, ?);"""
         data = (row[0], float(row[1]), float(row[2]), float(row[3]), int(row[4]))
 
         try:
@@ -83,4 +84,4 @@ if __name__ == "__main__":
     connect_to_db(dbName='telecom_user_satisfaction')
     create_table(dbName='telecom_user_satisfaction')
     df = pd.read_csv('./user_experience_scores.csv')
-    insert_to_tweet_table(dbName='telecom_user_satisfaction', df=df.sample(1000), table_name='satisfaction_scores')
+    insert_to_tweet_table(dbName='telecom_user_satisfaction', df=df.sample(100), table_name='satisfaction_scores')
